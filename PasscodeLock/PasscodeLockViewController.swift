@@ -48,7 +48,7 @@ public class PasscodeLockViewController: UIViewController, PasscodeLockTypeDeleg
     
     // MARK: - Initializers
     
-    public init(state: PasscodeLockStateType, configuration: PasscodeLockConfigurationType, animateOnDismiss: Bool = true) {
+    public required init(state: PasscodeLockStateType, configuration: PasscodeLockConfigurationType, animateOnDismiss: Bool = true) {
         
         self.animateOnDismiss = animateOnDismiss
         

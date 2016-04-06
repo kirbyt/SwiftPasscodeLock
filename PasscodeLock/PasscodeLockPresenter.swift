@@ -25,20 +25,26 @@ public class PasscodeLockPresenter {
     private let passcodeConfiguration: PasscodeLockConfigurationType
     public var isPasscodePresented = false
     public let passcodeLockVC: PasscodeLockViewController
-    
-    public init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType, viewController: PasscodeLockViewController) {
-        
-        mainWindow = window
-        mainWindow?.windowLevel = 1
-        passcodeConfiguration = configuration
-        
-        passcodeLockVC = viewController
+    private var passcodeLockVCType: PasscodeLockViewController.Type
+
+    public init<T: PasscodeLockViewController>(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType, viewControllerType: T.Type) {
+      
+      mainWindow = window
+      mainWindow?.windowLevel = 1
+      passcodeConfiguration = configuration
+      
+      passcodeLockVCType = viewControllerType
+      passcodeLockVC = viewControllerType.init(state: EnterPasscodeState(), configuration: configuration, animateOnDismiss: true)
+    }
+
+    public convenience init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType, viewController: PasscodeLockViewController) {
+      self.init(mainWindow: window, configuration: configuration, viewControllerType: viewController.dynamicType)
     }
 
     public convenience init(mainWindow window: UIWindow?, configuration: PasscodeLockConfigurationType) {
         
         let passcodeLockVC = PasscodeLockViewController(state: .EnterPasscode, configuration: configuration)
-        
+      
         self.init(mainWindow: window, configuration: configuration, viewController: passcodeLockVC)
     }
     
@@ -55,7 +61,7 @@ public class PasscodeLockPresenter {
         mainWindow?.windowLevel = 1
         mainWindow?.endEditing(true)
         
-        let passcodeLockVC = PasscodeLockViewController(state: .EnterPasscode, configuration: passcodeConfiguration)
+        let passcodeLockVC = passcodeLockVCType.init(state: EnterPasscodeState(), configuration: passcodeConfiguration, animateOnDismiss: true)
         let userDismissCompletionCallback = passcodeLockVC.dismissCompletionCallback
         
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
