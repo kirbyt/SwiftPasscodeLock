@@ -18,7 +18,7 @@ public protocol PasscodeRepositoryType {
     func passcodeAsync(completion: (currentPasscode: [String]?) -> Void)
 }
 
-extension PasscodeRepositoryType {
+public extension PasscodeRepositoryType {
   // Provide a default implementation. 
   func passcodeAsync(completion: (currentPasscode: [String]?) -> Void) {
     completion(currentPasscode: passcode)
