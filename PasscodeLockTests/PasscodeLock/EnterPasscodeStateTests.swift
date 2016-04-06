@@ -30,6 +30,7 @@ class NotificaionObserver: NSObject {
 class EnterPasscodeStateTests: XCTestCase {
     
     var passcodeLock: FakePasscodeLock!
+    var passcodeAsyncLock: FakePasscodeLock! // Uses the async configuration.
     var passcodeState: EnterPasscodeState!
     var repository: FakePasscodeRepository!
     
@@ -42,6 +43,9 @@ class EnterPasscodeStateTests: XCTestCase {
         
         passcodeState = EnterPasscodeState()
         passcodeLock = FakePasscodeLock(state: passcodeState, configuration: config)
+      
+        let asyncConfig = FakePasscodeASyncLockConfiguration(repository: repository)
+        passcodeAsyncLock = FakePasscodeLock(state: passcodeState, configuration: asyncConfig)
     }
     
     func testAcceptCorrectPasscode() {
@@ -112,5 +116,34 @@ class EnterPasscodeStateTests: XCTestCase {
         passcodeState.acceptPasscode(["0"], fromLock: passcodeLock)
 
         XCTAssertEqual(observer.callCounter, 1, "Should send the notification only once")
+    }
+  
+    func testPasscodeAsync() {
+      
+      class MockDelegate: FakePasscodeLockDelegate {
+        
+        var called = false
+        var expectation: XCTestExpectation
+        
+        init(expectation: XCTestExpectation) {
+          self.expectation = expectation
+        }
+        
+        override func passcodeLockDidSucceed(lock: PasscodeLockType) {
+          
+          called = true
+          expectation.fulfill()
+        }
+      }
+      
+      let expectation = self.expectationWithDescription("Async passcode")
+      let delegate = MockDelegate(expectation: expectation)
+      
+      passcodeAsyncLock.delegate = delegate
+      passcodeState.acceptPasscode(repository.fakePasscode, fromLock: passcodeAsyncLock)
+      
+      XCTAssertEqual(delegate.called, true, "Should call the delegate when the passcode is correct")
+
+      self.waitForExpectationsWithTimeout(5.0, handler: nil)
     }
 }

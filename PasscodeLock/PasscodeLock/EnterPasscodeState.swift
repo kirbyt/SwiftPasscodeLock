@@ -28,30 +28,42 @@ struct EnterPasscodeState: PasscodeLockStateType {
     }
     
     mutating func acceptPasscode(passcode: [String], fromLock lock: PasscodeLockType) {
-        
-        guard let currentPasscode = lock.repository.passcode else {
-            return
-        }
-        
-        if passcode == currentPasscode {
-            
-            lock.delegate?.passcodeLockDidSucceed(lock)
-            
-        } else {
-            
-            inccorectPasscodeAttempts += 1
-            
-            if inccorectPasscodeAttempts >= lock.configuration.maximumInccorectPasscodeAttempts {
-                
-                postNotification()
+      
+        if lock.configuration.usePasscodeAsync {
+          lock.repository.passcodeAsync { (currentPasscode) in
+            if let currentPasscode = currentPasscode {
+              self.performAcceptPasscode(passcode, currentPasscode: currentPasscode, fromLock: lock)
             }
-            
-            lock.delegate?.passcodeLockDidFail(lock)
-        }
+          }
+        } else {
+          guard let currentPasscode = lock.repository.passcode else {
+            return
+          }
+          performAcceptPasscode(passcode, currentPasscode: currentPasscode, fromLock: lock)
+      }
     }
-    
-    private mutating func postNotification() {
+  
+    private mutating func performAcceptPasscode(passcode: [String], currentPasscode: [String], fromLock lock: PasscodeLockType) {
+      
+      if passcode == currentPasscode {
         
+        lock.delegate?.passcodeLockDidSucceed(lock)
+        
+      } else {
+        
+        inccorectPasscodeAttempts += 1
+        
+        if inccorectPasscodeAttempts >= lock.configuration.maximumInccorectPasscodeAttempts {
+          
+          postNotification()
+        }
+        
+        lock.delegate?.passcodeLockDidFail(lock)
+      }
+    }
+  
+    private mutating func postNotification() {
+      
         guard !isNotificationSent else { return }
             
         let center = NSNotificationCenter.defaultCenter()

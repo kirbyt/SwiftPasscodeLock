@@ -15,4 +15,12 @@ public protocol PasscodeRepositoryType {
     
     func savePasscode(passcode: [String])
     func deletePasscode()
+    func passcodeAsync(completion: (currentPasscode: [String]?) -> Void)
+}
+
+extension PasscodeRepositoryType {
+  // Provide a default implementation. 
+  func passcodeAsync(completion: (currentPasscode: [String]?) -> Void) {
+    completion(currentPasscode: passcode)
+  }
 }
