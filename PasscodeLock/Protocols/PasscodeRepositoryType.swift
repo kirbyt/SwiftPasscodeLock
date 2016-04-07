@@ -15,12 +15,16 @@ public protocol PasscodeRepositoryType {
     
     func savePasscode(passcode: [String])
     func deletePasscode()
-    func passcodeAsync(completion: (currentPasscode: [String]?) -> Void)
+    func isPasscodeValidAsync(passcode: [String], completion: (valid: Bool) -> Void)
 }
 
 public extension PasscodeRepositoryType {
   // Provide a default implementation. 
-  func passcodeAsync(completion: (currentPasscode: [String]?) -> Void) {
-    completion(currentPasscode: passcode)
+  func isPasscodeValidAsync(passcode: [String], completion: (valid: Bool) -> Void) {
+    guard let currentPasscode = self.passcode else {
+      completion(valid: false)
+      return
+    }
+    completion(valid: (passcode == currentPasscode))
   }
 }

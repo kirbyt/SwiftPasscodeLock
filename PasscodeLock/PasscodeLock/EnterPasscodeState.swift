@@ -29,10 +29,13 @@ struct EnterPasscodeState: PasscodeLockStateType {
     
     mutating func acceptPasscode(passcode: [String], fromLock lock: PasscodeLockType) {
       
-        if lock.configuration.usePasscodeAsync {
-          lock.repository.passcodeAsync { (currentPasscode) in
-            if let currentPasscode = currentPasscode {
-              self.performAcceptPasscode(passcode, currentPasscode: currentPasscode, fromLock: lock)
+        if lock.configuration.useIsPasscodeValidAsync {
+          lock.repository.isPasscodeValidAsync(passcode) { (valid) in
+            if valid {
+              self.performAcceptPasscode(passcode, currentPasscode: passcode, fromLock: lock)
+              
+            } else {
+              self.performAcceptPasscode(passcode, currentPasscode: [], fromLock: lock)
             }
           }
         } else {

@@ -8,14 +8,14 @@
 
 import Foundation
 
-class FakePasscodeASyncLockConfiguration: PasscodeLockConfigurationType {
+class FakePasscodeAsyncLockConfiguration: PasscodeLockConfigurationType {
     
     let repository: PasscodeRepositoryType
     let passcodeLength = 4
     var isTouchIDAllowed = false
     let maximumInccorectPasscodeAttempts = 3
     let shouldRequestTouchIDImmediately = false
-    let usePasscodeAsync = true
+    let useIsPasscodeValidAsync = true
   
     init(repository: PasscodeRepositoryType) {
         
