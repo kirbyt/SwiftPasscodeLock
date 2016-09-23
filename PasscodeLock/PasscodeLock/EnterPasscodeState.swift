@@ -17,8 +17,8 @@ struct EnterPasscodeState: PasscodeLockStateType {
     let isCancellableAction: Bool
     var isTouchIDAllowed = true
     
-    private var inccorectPasscodeAttempts = 0
-    private var isNotificationSent = false
+    fileprivate var inccorectPasscodeAttempts = 0
+    fileprivate var isNotificationSent = false
     
     init(allowCancellation: Bool = false) {
         
@@ -27,7 +27,7 @@ struct EnterPasscodeState: PasscodeLockStateType {
         description = localizedStringFor("PasscodeLockEnterDescription", comment: "Enter passcode description")
     }
     
-    mutating func acceptPasscode(passcode: [String], fromLock lock: PasscodeLockType) {
+    mutating func acceptPasscode(_ passcode: [String], fromLock lock: PasscodeLockType) {
       
         if lock.configuration.useIsPasscodeValidAsync {
           lock.repository.isPasscodeValidAsync(passcode) { (valid) in
@@ -46,7 +46,7 @@ struct EnterPasscodeState: PasscodeLockStateType {
       }
     }
   
-    private mutating func performAcceptPasscode(passcode: [String], currentPasscode: [String], fromLock lock: PasscodeLockType) {
+    fileprivate mutating func performAcceptPasscode(_ passcode: [String], currentPasscode: [String], fromLock lock: PasscodeLockType) {
       
       if passcode == currentPasscode {
         
@@ -65,13 +65,13 @@ struct EnterPasscodeState: PasscodeLockStateType {
       }
     }
   
-    private mutating func postNotification() {
+    fileprivate mutating func postNotification() {
       
         guard !isNotificationSent else { return }
             
-        let center = NSNotificationCenter.defaultCenter()
+        let center = NotificationCenter.default
         
-        center.postNotificationName(PasscodeLockIncorrectPasscodeNotification, object: nil)
+        center.post(name: Notification.Name(rawValue: PasscodeLockIncorrectPasscodeNotification), object: nil)
         
         isNotificationSent = true
     }
