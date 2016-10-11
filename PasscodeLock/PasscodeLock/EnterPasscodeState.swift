@@ -10,7 +10,7 @@ import Foundation
 
 public let PasscodeLockIncorrectPasscodeNotification = "passcode.lock.incorrect.passcode.notification"
 
-struct EnterPasscodeState: PasscodeLockStateType {
+class EnterPasscodeState: PasscodeLockStateType {
     
     let title: String
     let description: String
@@ -27,10 +27,10 @@ struct EnterPasscodeState: PasscodeLockStateType {
         description = localizedStringFor("PasscodeLockEnterDescription", comment: "Enter passcode description")
     }
     
-    mutating func acceptPasscode(_ passcode: [String], fromLock lock: PasscodeLockType) {
+    func acceptPasscode(_ passcode: [String], fromLock lock: PasscodeLockType) {
       
-        if lock.configuration.useIsPasscodeValidAsync {
-          lock.repository.isPasscodeValidAsync(passcode) { (valid) in
+        if lock.configuration.useAsyncValidation {
+          lock.repository.validate(passcode) { (valid) in
             if valid {
               self.performAcceptPasscode(passcode, currentPasscode: passcode, fromLock: lock)
               
@@ -46,7 +46,7 @@ struct EnterPasscodeState: PasscodeLockStateType {
       }
     }
   
-    fileprivate mutating func performAcceptPasscode(_ passcode: [String], currentPasscode: [String], fromLock lock: PasscodeLockType) {
+    fileprivate func performAcceptPasscode(_ passcode: [String], currentPasscode: [String], fromLock lock: PasscodeLockType) {
       
       if passcode == currentPasscode {
         
@@ -65,7 +65,7 @@ struct EnterPasscodeState: PasscodeLockStateType {
       }
     }
   
-    fileprivate mutating func postNotification() {
+    fileprivate func postNotification() {
       
         guard !isNotificationSent else { return }
             

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6807E9101DAC301D008502D8 /* AsyncValidationRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807E90F1DAC301D008502D8 /* AsyncValidationRepositoryType.swift */; };
+		6807E9121DAC62EC008502D8 /* AsyncValidationLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807E9111DAC62EC008502D8 /* AsyncValidationLockConfiguration.swift */; };
 		68A9FA7A1CB587E000AA778F /* FakePasscodeAsyncLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A9FA791CB587E000AA778F /* FakePasscodeAsyncLockConfiguration.swift */; };
 		C99EAF431B90B05700D61E1B /* PasscodeLock.h in Headers */ = {isa = PBXBuildFile; fileRef = C99EAF421B90B05700D61E1B /* PasscodeLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C99EAF4A1B90B05800D61E1B /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99EAF3F1B90B05700D61E1B /* PasscodeLock.framework */; };
@@ -105,6 +107,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6807E90F1DAC301D008502D8 /* AsyncValidationRepositoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncValidationRepositoryType.swift; sourceTree = "<group>"; };
+		6807E9111DAC62EC008502D8 /* AsyncValidationLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncValidationLockConfiguration.swift; sourceTree = "<group>"; };
 		68A9FA791CB587E000AA778F /* FakePasscodeAsyncLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakePasscodeAsyncLockConfiguration.swift; sourceTree = "<group>"; };
 		C99EAF3F1B90B05700D61E1B /* PasscodeLock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PasscodeLock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99EAF421B90B05700D61E1B /* PasscodeLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasscodeLock.h; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				C9D3DF1E1B91AD11008561EB /* Info.plist */,
 				C9D3DF431B91B9CD008561EB /* UserDefaultsPasscodeRepository.swift */,
 				C9D3DF451B91BD0E008561EB /* PasscodeLockConfiguration.swift */,
+				6807E90F1DAC301D008502D8 /* AsyncValidationRepositoryType.swift */,
+				6807E9111DAC62EC008502D8 /* AsyncValidationLockConfiguration.swift */,
 			);
 			path = PasscodeLockDemo;
 			sourceTree = "<group>";
@@ -594,6 +600,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6807E9101DAC301D008502D8 /* AsyncValidationRepositoryType.swift in Sources */,
+				6807E9121DAC62EC008502D8 /* AsyncValidationLockConfiguration.swift in Sources */,
 				C9D3DF441B91B9CD008561EB /* UserDefaultsPasscodeRepository.swift in Sources */,
 				C9D3DF461B91BD0E008561EB /* PasscodeLockConfiguration.swift in Sources */,
 				C9D3DF151B91AD11008561EB /* PasscodeSettingsViewController.swift in Sources */,
